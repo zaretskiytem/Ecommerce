@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import { sliderItems } from "../data";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -33,7 +34,7 @@ const Arrow = styled.div`
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
-  transform: translateX(-200vw);
+  transform: translateX(${(props) => props.slideIndex * -100}vw);
 `;
 
 const Slide = styled.div`
@@ -41,10 +42,11 @@ const Slide = styled.div`
   hieght: 100vh;
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.bg};
+  background-color: #${(props) => props.bg};
 `;
 
 const ImgContainer = styled.div`
+  height: 100%;
   flex: 1;
 `;
 
@@ -74,8 +76,14 @@ const Button = styled.button`
 `;
 
 function Slider() {
-  const [slideIndex, setSlideIndex] = React.useState[0];
-  const handleClick = (direction) => {};
+  const [slideIndex, setSlideIndex] = useState(0);
+  const handleClick = (direction) => {
+    if (direction === "left") {
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+    } else {
+      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+    }
+  };
 
   return (
     <div>
@@ -83,9 +91,9 @@ function Slider() {
         <Arrow direction="left" onClick={() => handleClick("left")}>
           <ArrowLeftOutlined />
         </Arrow>
-        <Wrapper>
+        <Wrapper slideIndex={slideIndex}>
           {sliderItems.map((item) => (
-            <Slide bg={item.bg}>
+            <Slide bg={item.bg} key={item.id}>
               <ImgContainer>
                 <Image src={item.img} />
               </ImgContainer>
