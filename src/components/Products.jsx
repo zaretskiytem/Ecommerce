@@ -1,7 +1,24 @@
-import React from "react";
+import styled from "styled-components";
+import { popularProducts } from "../data";
+import Product from "./Product";
+import { Link } from "react-router-dom";
 
-function Products() {
-  return <div>Products</div>;
-}
+const Container = styled.div`
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`;
+
+const Products = () => {
+  return (
+    <Container>
+      {popularProducts.map((item) => (
+        <Product item={item} key={item.id} />
+      ))}
+      {/* All products */}
+    </Container>
+  );
+};
 
 export default Products;
